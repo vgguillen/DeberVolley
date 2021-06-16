@@ -1,6 +1,8 @@
 package com.example.debervolley;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
@@ -20,10 +22,17 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class MainActivity extends AppCompatActivity {
 
     RequestQueue queue;
     TextView textView;
+
+    RecyclerView recyclerRevista;
+    Adapter revistaAdapter;
+    List<RevistaModel> revistam;
 
     String url;
     @Override
@@ -36,21 +45,31 @@ public class MainActivity extends AppCompatActivity {
         //stringRequest();
 
 
+
+
+    }
+
+    private void inicializarelements(){
+        recyclerRevista = findViewById(R.id.Recycleview_id);
+        recyclerRevista.setLayoutManager(new LinearLayoutManager(this));
+
+        jsonArrayRequest();
+        revistaAdapter = new Adapter(revistam,this);
+
+        recyclerRevista.setAdapter(revistaAdapter);
     }
 
     public void btnConsultar(View view){
+        textView.setText("");
         EditText txt = findViewById(R.id.txtID);
 
         url = "https://revistas.uteq.edu.ec/ws/issues.php?j_id="+txt.getText().toString();
-        jsonArrayRequest();
+        inicializarelements();
     }
 
-    public void refrescar(View view){
-        textView.setText("");
-    }
 
     private void initUI(){
-        textView = findViewById(R.id.textView);
+    //    textView = findViewById(R.id.textView);
         textView.setMovementMethod(new ScrollingMovementMethod());
 
     }
@@ -76,6 +95,7 @@ public class MainActivity extends AppCompatActivity {
         queue.add(request);
     }
 
+
     private void jsonArrayRequest(){
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(
                 Request.Method.GET,
@@ -85,9 +105,11 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(JSONArray response) {
                         int size = response.length();
+                        revistam = new ArrayList<>();
                         for (int i = 0; i < size; i++){
                             try {
                                 JSONObject jsonObject = new JSONObject(response.get(i).toString());
+
                                 String tittle = jsonObject.getString("title");
                                 String id = jsonObject.getString("issue_id");
                                 String volumen = jsonObject.getString("volume");
@@ -95,13 +117,16 @@ public class MainActivity extends AppCompatActivity {
                                 String anio = jsonObject.getString("year");
                                 String doi = jsonObject.getString("doi");
                                 String cover = jsonObject.getString("cover");
-                                textView.append("Título: "+ tittle +"\n");
+                                String fecha = jsonObject.getString("date_published");
+
+                                revistam.add(new RevistaModel(id,volumen,numero,anio,fecha,tittle,doi,cover));
+                                /*textView.append("Título: "+ tittle +"\n");
                                 textView.append("ID: "+ id +"\n");
                                 textView.append("Volumen: "+ volumen +"\n");
                                 textView.append("Número: "+ numero +"\n");
                                 textView.append("Año: "+ anio +"\n");
                                 textView.append("DOI: "+ doi +"\n");
-                                textView.append("Cover: "+ cover +"\n\n\n");
+                                textView.append("Cover: "+ cover +"\n\n\n");*/
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
