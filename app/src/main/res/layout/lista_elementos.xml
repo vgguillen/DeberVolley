@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:andriod="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    andriod:id="@+id/cv"
+    andriod:layout_width="match_parent"
+    andriod:layout_height="wrap_content"
+    andriod:animateLayoutChanges="true"
+    app:cardCornerRadius="25dp"
+    app:cardElevation="6dp"
+    app:cardUseCompatPadding="true">
+    <LinearLayout
+        andriod:layout_width="match_parent"
+        andriod:layout_height="wrap_content"
+        andriod:animateLayoutChanges="true"
+        andriod:orientation="vertical">
+        <RelativeLayout
+            andriod:layout_width="match_parent"
+            andriod:layout_height="wrap_content"
+            andriod:orientation="horizontal"
+            andriod:padding="10dp">
+
+            <LinearLayout
+                andriod:id="@+id/linearLayout"
+                andriod:layout_width="match_parent"
+                andriod:layout_height="wrap_content"
+                andriod:layout_alignParentTop="true"
+                andriod:layout_marginTop="5dp"
+                andriod:layout_toRightOf="@+id/img"
+                andriod:orientation="vertical"
+                andriod:layout_marginLeft="4dp">
+                <TextView
+                    andriod:id="@+id/Titulorevistatxt"
+                    andriod:layout_width="match_parent"
+                    andriod:layout_height="wrap_content"
+                    andriod:layout_marginBottom="2dp"
+                    andriod:text="Titulo"
+                    andriod:textColor="@android:color/holo_purple"
+                    andriod:textSize="22sp"
+                    andriod:textStyle="bold"/>
+
+                <ImageView
+                    andriod:id="@+id/img"
+                    andriod:layout_width="100dp"
+                    andriod:layout_height="100dp"
+                    andriod:layout_gravity="center"
+                    andriod:paddingLeft="12dp"
+                    andriod:paddingRight="12dp"
+                    andriod:scaleType="centerCrop"
+                    tools:ignore="InvalidId" />
+
+                <TextView
+                    andriod:id="@+id/Fecharevistatxt"
+                    andriod:layout_width="match_parent"
+                    andriod:layout_height="wrap_content"
+                    andriod:text="Fecha"
+                    andriod:textSize="16sp" />
+
+                <TextView
+                    andriod:id="@+id/VolumenRevistatxt"
+                    andriod:layout_width="match_parent"
+                    andriod:layout_height="wrap_content"
+                    andriod:text="Volumen"
+                    andriod:textSize="16sp" />
+
+            </LinearLayout>
+        </RelativeLayout>
+    </LinearLayout>
+</androidx.cardview.widget.CardView>

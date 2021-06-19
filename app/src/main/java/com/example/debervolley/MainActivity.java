@@ -29,42 +29,40 @@ public class MainActivity extends AppCompatActivity {
 
     RequestQueue queue;
     TextView textView;
-
+    TextView txtID;
     RecyclerView recyclerRevista;
     Adapter revistaAdapter;
     List<RevistaModel> revistam;
+    String url = "https://revistas.uteq.edu.ec/ws/issues.php?j_id=";
 
-    String url;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
         queue = Volley.newRequestQueue(this);
-        initUI();
+        //initUI();
         //stringRequest();
 
 
 
 
+
     }
 
-    private void inicializarelements(){
+
+
+    public void btnConsultar(View view){
+
+        txtID = findViewById(R.id.txtID);
+
         recyclerRevista = findViewById(R.id.Recycleview_id);
         recyclerRevista.setLayoutManager(new LinearLayoutManager(this));
 
-        jsonArrayRequest();
-        revistaAdapter = new Adapter(revistam,this);
+        jsonArrayRequest(txtID.getText().toString());
 
-        recyclerRevista.setAdapter(revistaAdapter);
-    }
 
-    public void btnConsultar(View view){
-        textView.setText("");
-        EditText txt = findViewById(R.id.txtID);
 
-        url = "https://revistas.uteq.edu.ec/ws/issues.php?j_id="+txt.getText().toString();
-        inicializarelements();
     }
 
 
@@ -96,10 +94,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    private void jsonArrayRequest(){
+    private void jsonArrayRequest(String ID){
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(
                 Request.Method.GET,
-                url,
+                url + ID,
                 null,
                 new Response.Listener<JSONArray>() {
                     @Override
@@ -131,6 +129,9 @@ public class MainActivity extends AppCompatActivity {
                                 e.printStackTrace();
                             }
                         }
+                        revistaAdapter = new Adapter(revistam,getApplicationContext());
+
+                        recyclerRevista.setAdapter(revistaAdapter);
                     }
                 },
                 new Response.ErrorListener() {
